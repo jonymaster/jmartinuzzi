@@ -4,10 +4,10 @@ const socials = [
   { label: "GitHub", href: "https://github.com/jonymaster", icon: Github },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/jmartinuzzi",
+    href: "https://www.linkedin.com/in/jacopo-martinuzzi/",
     icon: Linkedin,
   },
-  { label: "Email", href: "mailto:hello@jmartinuzzi.dev", icon: Mail },
+  { label: "Email", href: "mailto:me@jmartinuzzi.dev", icon: Mail },
 ];
 
 export function Footer() {

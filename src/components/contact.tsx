@@ -1,11 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Copy, Check } from "lucide-react";
 import { TiltCard } from "@/components/tilt-card";
 
+const EMAIL = "me@jmartinuzzi.dev";
+
 export function Contact() {
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy() {
+    navigator.clipboard.writeText(EMAIL);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   return (
     <section id="contact" className="py-24">
       <div className="mx-auto max-w-4xl px-6">
@@ -25,12 +35,19 @@ export function Contact() {
                 engagements — security, DevOps, IT systems, or Atlassian. If you
                 have a project in mind, reach out.
               </p>
-              <Button asChild size="lg" className="gap-2">
-                <a href="mailto:jacopo.martinuzzi@gmail.com">
-                  Get in touch
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </Button>
+              <div className="inline-flex items-center gap-3 rounded-xl border border-border bg-background px-5 py-3">
+                <span className="font-mono text-sm">{EMAIL}</span>
+                <button
+                  onClick={handleCopy}
+                  aria-label="Copy email"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {copied
+                    ? <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    : <Copy className="h-4 w-4" />
+                  }
+                </button>
+              </div>
             </div>
           </TiltCard>
         </motion.div>

@@ -41,7 +41,6 @@ export function Services() {
         </div>
         <p className="mb-12 max-w-xl text-muted-foreground">
           I work with startups and growing organizations as a remote contractor.
-          Here&apos;s where I can help.
         </p>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

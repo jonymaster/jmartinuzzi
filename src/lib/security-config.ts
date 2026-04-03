@@ -9,7 +9,7 @@ export const securityHeaders = {
 
 export const cspDirectives: Record<string, string[]> = {
   "default-src": ["'self'"],
-  "script-src": ["'self'", "'strict-dynamic'"],
+  "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
   "style-src": ["'self'", "'unsafe-inline'"],
   "img-src": ["'self'", "blob:", "data:"],
   "font-src": ["'self'"],

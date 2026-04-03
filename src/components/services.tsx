@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, Cloud, Layers, Workflow } from "lucide-react";
+import { ShieldCheck, Cloud, Layers, Workflow, Zap } from "lucide-react";
+import { TiltCard } from "@/components/tilt-card";
 
 const services = [
   {
@@ -34,7 +35,10 @@ export function Services() {
   return (
     <section id="services" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="mb-4 text-3xl font-bold tracking-tight">What I do</h2>
+        <div className="mb-4 flex items-center gap-3">
+          <Zap className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+          <h2 className="text-3xl font-bold tracking-tight">What I do</h2>
+        </div>
         <p className="mb-12 max-w-xl text-muted-foreground">
           I work with startups and growing organizations as a remote contractor.
           Here&apos;s where I can help.
@@ -48,13 +52,16 @@ export function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass rounded-xl p-6"
-            >
-              <service.icon className="mb-4 h-6 w-6 text-emerald-400" />
-              <h3 className="mb-2 text-lg font-semibold">{service.title}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {service.description}
-              </p>
+              >
+              <TiltCard>
+              <div className="glass rounded-xl p-6 transition-all duration-300 hover:border-emerald-600/30 dark:hover:border-emerald-400/30 hover:bg-black/5 dark:hover:bg-white/10 hover:shadow-[0_0_30px_-5px_oklch(0.79_0.209_151.71/0.15)]">
+                <service.icon className="mb-4 h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                <h3 className="mb-2 text-lg font-semibold">{service.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {service.description}
+                </p>
+              </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

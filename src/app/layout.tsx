@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
-import { CursorSpotlight } from "@/components/cursor-spotlight";
+import { AmbientLights } from "@/components/ambient-lights";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,7 +37,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <ThemeProvider>
-            <CursorSpotlight />
+            <AmbientLights />
             {children}
           </ThemeProvider>
       </body>

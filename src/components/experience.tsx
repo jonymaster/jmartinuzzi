@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Briefcase } from "lucide-react";
+import { TiltCard } from "@/components/tilt-card";
 
 interface ExperienceEntry {
   title: string;
@@ -54,8 +55,12 @@ const experiences: ExperienceEntry[] = [
 export function Experience() {
   return (
     <section id="experience" className="py-24">
-      <div className="mx-auto max-w-4xl px-6">
-        <h2 className="mb-12 text-3xl font-bold tracking-tight">Experience</h2>
+      <div className="mx-auto max-w-6xl px-6">
+      <div className="max-w-4xl">
+        <div className="mb-12 flex items-center gap-3">
+          <Briefcase className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+          <h2 className="text-3xl font-bold tracking-tight">Experience</h2>
+        </div>
 
         <div className="relative border-l border-border pl-8">
           {experiences.map((entry, i) => (
@@ -68,16 +73,17 @@ export function Experience() {
               className="relative mb-12 last:mb-0"
             >
               <span className="absolute -left-[2.55rem] top-1 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-background">
-                <Briefcase className="h-3 w-3 text-emerald-400" />
+                <Briefcase className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
               </span>
 
-              <div className="glass rounded-xl p-5">
+              <TiltCard>
+              <div className="glass rounded-xl p-5 transition-all duration-300 hover:border-emerald-600/30 dark:hover:border-emerald-400/30 hover:bg-black/5 dark:hover:bg-white/10 hover:shadow-[0_0_30px_-5px_oklch(0.79_0.209_151.71/0.15)]">
                 <div className="mb-1 flex items-center gap-2">
-                  <p className="text-xs font-medium uppercase tracking-wider text-emerald-400">
+                  <p className="text-xs font-medium uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                     {entry.period}
                   </p>
                   {entry.badge && (
-                    <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-xs font-medium text-emerald-400">
+                    <span className="rounded-full border border-emerald-600/30 bg-emerald-600/10 dark:border-emerald-400/30 dark:bg-emerald-400/10 px-2 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
                       {entry.badge}
                     </span>
                   )}
@@ -88,9 +94,11 @@ export function Experience() {
                   {entry.description}
                 </p>
               </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );

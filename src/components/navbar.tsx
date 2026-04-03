@@ -35,7 +35,7 @@ export function Navbar() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
         <a href="#" className="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight">
-          <Shield className="h-5 w-5 text-emerald-400" />
+          <Shield className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
           <span>jmartinuzzi</span>
         </a>
 

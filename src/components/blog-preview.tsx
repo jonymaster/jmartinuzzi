@@ -15,7 +15,7 @@ export function BlogPreview() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <PenLine className="h-6 w-6 text-emerald-400" />
+            <PenLine className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
             <h2 className="text-3xl font-bold tracking-tight">Blog</h2>
           </div>
           <Button asChild variant="ghost" size="sm" className="gap-2">

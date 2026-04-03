@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, FolderGit2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { BentoCard } from "@/components/bento-card";
 
@@ -63,7 +63,10 @@ export function Projects() {
   return (
     <section id="projects" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="mb-12 text-3xl font-bold tracking-tight">Projects</h2>
+        <div className="mb-12 flex items-center gap-3">
+          <FolderGit2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+          <h2 className="text-3xl font-bold tracking-tight">Projects</h2>
+        </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (

@@ -64,13 +64,13 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-1.5"
+          className="flex items-center gap-2 rounded-full border border-emerald-600/20 bg-emerald-600/10 px-4 py-1.5 dark:border-emerald-400/20 dark:bg-emerald-400/10"
         >
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-600 opacity-75 dark:bg-emerald-400" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400" />
           </span>
-          <p className="text-sm font-medium tracking-wide text-emerald-400">
+          <p className="text-sm font-medium tracking-wide text-emerald-600 dark:text-emerald-400">
             Freelance IT & Security Engineer · Open to new projects
           </p>
         </motion.div>

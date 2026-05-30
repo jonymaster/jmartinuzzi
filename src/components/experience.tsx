@@ -14,34 +14,34 @@ interface ExperienceEntry {
 
 const experiences: ExperienceEntry[] = [
   {
-    title: "IT & Systems Engineer",
+    title: "Systems Engineer",
     company: "Meedan — Remote",
-    period: "2025 – Present",
+    period: "2026 – Present",
     badge: "Contract",
     description:
-      "Contractor for a global nonprofit building AI-powered platforms for election integrity and information access. Covering security engineering, DevOps, and IT systems across a fully remote, distributed team.",
+      "Contractor for a global nonprofit building AI-powered platforms for information access. Covering security engineering, DevOps, and IT systems across a fully remote, distributed team — owning cloud infrastructure and consolidating tooling.",
   },
   {
-    title: "Atlassian Consultant",
+    title: "Systems Engineering Manager → Atlassian Consultant (Retained)",
     company: "Welltech — Remote",
     period: "2025 – Present",
     badge: "Retained Client",
     description:
-      "Retained as an external consultant for advanced Atlassian configuration — Jira workflows, Confluence governance, automation rules, and ongoing platform optimization for the engineering org.",
+      "Joined to build out the IT & Security engineering function for a fast-growing org — team scaling, identity lifecycle across Google Workspace and Okta, PCI-DSS audit-readiness, and an org-wide Asana→Jira migration. Now retained as a freelance Atlassian consultant for advanced Jira/Confluence configuration, workflow design, and automation.",
   },
   {
     title: "Platform Security Engineer",
     company: "Glovo — Barcelona",
     period: "2021 – 2025",
     description:
-      "Led migration from legacy VPN to Cloudflare Zero Trust, securing 3,500+ endpoints. Refactored AWS IAM with Terraform enforcing least privilege across EKS workloads. Built security automation with Python and AWS Lambda, and achieved 100% device visibility through centralized MDM.",
+      "Led migration from legacy VPN to Cloudflare Zero Trust, securing a large distributed endpoint fleet. Refactored AWS IAM with Terraform enforcing least privilege across EKS workloads. Built security automation with Python and AWS Lambda, and achieved full fleet visibility through centralized MDM.",
   },
   {
     title: "Cloud & Infrastructure Engineer",
     company: "NTT — Barcelona",
     period: "2018 – 2021",
     description:
-      "Managed high-availability infrastructure (99.99% uptime) across VMware and Citrix platforms. Designed FortiGate and Palo Alto firewall policies for strict network segmentation across hybrid on-premise and cloud environments.",
+      "Managed high-availability, mission-critical infrastructure across VMware and Citrix platforms. Designed FortiGate and Palo Alto firewall policies for strict network segmentation across hybrid on-premise and cloud environments.",
   },
   {
     title: "IT Consultant",

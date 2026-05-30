@@ -99,20 +99,32 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col gap-3 sm:flex-row"
+          className="flex flex-col items-center gap-3"
         >
-          <Button asChild size="lg" className="gap-2">
-            <a href="#contact">
-              Let&apos;s work together
-              <ArrowRight className="h-4 w-4" />
-            </a>
-          </Button>
-          <Button asChild variant="ghost" size="lg" className="gap-2">
-            <a href="#experience">
-              See my work
-              <ChevronDown className="h-4 w-4" />
-            </a>
-          </Button>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="gap-2">
+              <a href="#contact">
+                Let&apos;s work together
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </Button>
+            <Button asChild variant="ghost" size="lg" className="gap-2">
+              <a href="#experience">
+                See my work
+                <ChevronDown className="h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+          <a
+            href="#projects"
+            className="group flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+          >
+            Latest project:
+            <span className="font-medium text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+              catalogIT
+            </span>
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </a>
         </motion.div>
       </div>
 

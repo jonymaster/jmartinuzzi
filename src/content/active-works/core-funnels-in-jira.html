@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Core Funnels in Jira</title>
+<meta name="description" content="How the Core Funnels team's links, experiments and recurring work move from Asana to Jira before the cutover on Friday 28 August 2026.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("cf-theme"); } catch (e) {}
+  if (t !== "light" && t !== "dark") {
+    t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  document.documentElement.setAttribute("data-theme", t);
+  document.documentElement.style.colorScheme = t;
+})();
+</script>
+<style>
+  :root {
+    --paper: #f6f5f1;
+    --wash: rgba(46, 78, 126, .07);
+    --surface: #fffcf8;
+    --surface-2: #efece6;
+    --ink: #1a1c16;
+    --ink-2: #4a4e44;
+    --ink-3: #7a7e74;
+    --rule: #e4e0d6;
+    --rule-firm: #c9c4b8;
+    --accent: #2e4e7e;
+    --accent-soft: rgba(46, 78, 126, .1);
+    --past: #8a8d84;
+    --past-bg: #f0eee8;
+    --good: #1f6b52;
+    --good-soft: rgba(31, 107, 82, .1);
+    --attention: #9a4a1c;
+    --attention-soft: rgba(154, 74, 28, .1);
+    --shadow: 0 1px 2px rgba(26, 28, 22, .04), 0 12px 32px rgba(26, 28, 22, .05);
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --paper: #12141c;
+    --wash: rgba(143, 168, 214, .09);
+    --surface: #1a1d28;
+    --surface-2: #242836;
+    --ink: #eef0e8;
+    --ink-2: #c0c4b8;
+    --ink-3: #8b9084;
+    --rule: #2c3140;
+    --rule-firm: #3e4456;
+    --accent: #8fa8d6;
+    --accent-soft: rgba(143, 168, 214, .14);
+    --past: #7e8390;
+    --past-bg: #161924;
+    --good: #6ec9ad;
+    --good-soft: rgba(110, 201, 173, .14);
+    --attention: #e09a6a;
+    --attention-soft: rgba(224, 154, 106, .13);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 40px rgba(0, 0, 0, .32);
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    background:
+      radial-gradient(1100px 420px at 50% -8%, var(--wash), transparent 72%),
+      var(--paper);
+    color: var(--ink-2);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 22px 100px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { max-width: 100%; height: auto; }
+  .wrap { max-width: 60rem; margin: 0 auto; }
+
+  .mast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .theme-toggle {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    padding: 0;
+  }
+  .theme-toggle:hover { border-color: var(--rule-firm); }
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .theme-toggle svg { width: 18px; height: 18px; display: none; }
+  :root[data-theme="light"] .icon-moon { display: block; }
+  :root[data-theme="dark"] .icon-sun { display: block; }
+
+  header.top { padding: 52px 0 38px; }
+  .kicker {
+    font-family: var(--sans);
+    font-size: .72rem;
+    font-weight: 650;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+  h1 {
+    font-family: var(--sans);
+    font-weight: 760;
+    font-size: clamp(2.3rem, 6vw, 3.5rem);
+    line-height: 1.04;
+    letter-spacing: -.034em;
+    color: var(--ink);
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  .stand {
+    font-size: clamp(1.08rem, 2.2vw, 1.28rem);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 42rem;
+    margin: 0;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+    gap: 12px;
+    margin-top: 40px;
+  }
+  .fact {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .fact b {
+    display: block;
+    font-family: var(--sans);
+    font-size: 1.48rem;
+    font-weight: 720;
+    letter-spacing: -.02em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .fact span {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--sans);
+    font-size: .76rem;
+    color: var(--ink-3);
+    letter-spacing: .01em;
+    line-height: 1.35;
+  }
+
+  section { margin-bottom: 72px; }
+  h2 {
+    font-family: var(--sans);
+    font-weight: 720;
+    font-size: clamp(1.38rem, 3vw, 1.8rem);
+    letter-spacing: -.022em;
+    line-height: 1.18;
+    color: var(--ink);
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-weight: 680;
+    font-size: 1.02rem;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .lede { color: var(--ink-3); margin: 0 0 26px; max-width: 44rem; }
+  p { max-width: 44rem; }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:focus-visible, summary:focus-visible, .theme-toggle:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px;
+  }
+  code, .k {
+    font-family: var(--mono);
+    font-size: .84em;
+    background: var(--surface-2);
+    color: var(--ink);
+    padding: .12em .38em;
+    border-radius: 4px;
+  }
+  strong { color: var(--ink); font-weight: 650; }
+
+  .pairs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 2.8rem 1fr;
+    align-items: stretch;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 640px) {
+    .pair { grid-template-columns: 1fr; }
+    .pair .arrow { transform: rotate(90deg); padding: 4px 0; }
+  }
+  .was, .now { padding: 16px 20px; }
+  .was { background: var(--past-bg); }
+  .was .label, .now .label {
+    display: block;
+    font-family: var(--sans);
+    font-size: .66rem;
+    font-weight: 650;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .was .label { color: var(--past); }
+  .now .label { color: var(--accent); }
+  .was .term { font-family: var(--sans); font-weight: 600; color: var(--past); font-size: 1rem; }
+  .now .term { font-family: var(--sans); font-weight: 700; color: var(--ink); font-size: 1.06rem; }
+  .note { display: block; font-size: .86rem; color: var(--ink-3); margin-top: 3px; }
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-family: var(--sans);
+    font-size: 1rem;
+    background: var(--surface);
+  }
+
+  .keeps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+  }
+  .keep {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--good);
+    border-radius: 0 12px 12px 0;
+    padding: 15px 16px;
+    box-shadow: var(--shadow);
+  }
+  .keep b { font-family: var(--sans); font-size: .95rem; color: var(--ink); display: block; }
+  .keep span { font-size: .87rem; color: var(--ink-3); }
+
+  .action {
+    background: var(--attention-soft);
+    border: 1px solid color-mix(in srgb, var(--attention) 45%, var(--rule));
+    border-radius: 16px;
+    padding: 28px 30px;
+  }
+  .action h2 { color: var(--ink); margin-bottom: 6px; }
+  .action .lede { color: var(--ink-2); }
+  .checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .checks li { display: grid; grid-template-columns: 1.5rem 1fr; gap: 10px; align-items: start; }
+  .checks li::before {
+    content: "";
+    width: 15px; height: 15px; margin-top: .38em;
+    border: 2px solid var(--attention);
+    border-radius: 4px;
+    background: var(--surface);
+  }
+  .checks b { font-family: var(--sans); color: var(--ink); font-size: .98rem; }
+
+  .steps { display: flex; flex-direction: column; position: relative; }
+  .steps::before {
+    content: "";
+    position: absolute;
+    left: calc(11rem - 5px);
+    top: 1.15rem;
+    bottom: 1.15rem;
+    width: 1px;
+    background: var(--rule);
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 0 28px;
+    padding: 20px 0;
+  }
+  @media (max-width: 640px) {
+    .steps::before { left: 4px; }
+    .step { grid-template-columns: 1fr; gap: 8px; padding-left: 22px; }
+  }
+  .when {
+    font-family: var(--sans);
+    font-size: .78rem;
+    font-weight: 650;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-top: .28em;
+    position: relative;
+  }
+  .when::after {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: .55em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--paper);
+  }
+  @media (max-width: 640px) {
+    .when::after { left: -22px; right: auto; }
+  }
+  .step.future .when { color: var(--ink-3); }
+  .step.future .when::after { background: var(--ink-3); }
+  .step p { margin: 4px 0 0; }
+
+  .scroll {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  table { border-collapse: collapse; width: 100%; font-family: var(--sans); font-size: .89rem; min-width: 30rem; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+  thead th {
+    font-size: .68rem; letter-spacing: .11em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 650; background: var(--surface-2); white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  caption {
+    caption-side: bottom;
+    text-align: left;
+    font-family: var(--serif);
+    font-size: .87rem;
+    color: var(--ink-3);
+    padding: 11px 3px 0;
+  }
+
+  .changes { counter-reset: change; }
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+  .callout + .callout { margin-top: 12px; }
+  .changes .callout { counter-increment: change; }
+  .changes .callout h3::before {
+    content: counter(change, decimal-leading-zero);
+    font-family: var(--sans);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--accent);
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .tag {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: .66rem;
+    font-weight: 650;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .28em .65em;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .tbc {
+    background: var(--attention-soft);
+    color: var(--attention);
+    font-family: var(--mono);
+    font-size: .8em;
+    padding: .1em .4em;
+    border-radius: 4px;
+  }
+  footer.end {
+    border-top: 1px solid var(--rule);
+    padding-top: 22px;
+    font-size: .9rem;
+    color: var(--ink-3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  @page { size: A4; margin: 16mm 14mm; }
+  @media print {
+    :root, :root[data-theme="dark"] {
+      --paper: #ffffff; --wash: transparent; --surface: #ffffff; --surface-2: #f3f1eb;
+      --ink: #14161f; --ink-2: #3a4052; --ink-3: #6b7286;
+      --rule: #d8dbe6; --rule-firm: #b9bdcd;
+      --accent: #2e4e7e; --accent-soft: #eef2f8;
+      --past: #7e8499; --past-bg: #f6f6f9;
+      --good: #12604e; --good-soft: #edf5f2;
+      --attention: #8f4318; --attention-soft: #fbf1ea;
+      --shadow: none;
+    }
+    body { padding: 0; font-size: 10.5pt; background: #fff; }
+    .wrap { max-width: none; }
+    header.top { padding-top: 0; }
+    h1 { font-size: 26pt; }
+    h2 { font-size: 15pt; }
+    .theme-toggle { display: none; }
+    .mast { margin-bottom: 12px; }
+    section, .pair, .keep, .callout, .step, .action, table, .facts { break-inside: avoid; }
+    section { margin-bottom: 20pt; }
+    a { color: var(--ink); text-decoration: none; }
+    .scroll { overflow: visible; }
+    .callout, .keep, .action, .facts, .pairs, .scroll, .fact, .pair { box-shadow: none; }
+    .steps::before { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="mast">
+    <p class="kicker">Core Funnels · Asana → Jira</p>
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 3v1.5M12 19.5V21M4.9 4.9l1.1 1.1M18 18l1.1 1.1M3 12h1.5M19.5 12H21M4.9 19.1l1.1-1.1M18 6l1.1-1.1"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M17.3 14.2A7.2 7.2 0 0 1 9.8 6.7 7.2 7.2 0 1 0 17.3 14.2z"/>
+      </svg>
+    </button>
+  </div>
+  <h1>Core Funnels in Jira</h1>
+  <p class="stand">Your links, experiments and recurring work are moving to Jira. Everything comes with them — the comments, the files, the history. Here is what it will look like, what changes, and what we need from you before <strong>Friday 28 August</strong>.</p>
+  <div class="facts">
+    <div class="fact"><b>8 → 3</b><span>Asana boards become three Jira projects</span></div>
+    <div class="fact"><b>11,954</b><span>tasks carried across</span></div>
+    <div class="fact"><b>2,137</b><span>links and experiments</span></div>
+    <div class="fact"><b>0</b><span>files or comments lost</span></div>
+    <div class="fact"><b>28 Aug</b><span>Asana closes, end of Friday</span></div>
+  </div>
+</header>
+
+<section>
+  <h2>Where we are today</h2>
+  <p class="lede">A full rehearsal is running right now.</p>
+  <p>We have built and tested the whole migration end to end, and we are currently running it for real against a copy of your data. When it finishes you will be able to open your product's Jira project and see your own links and experiments sitting there, with their attachments and comment threads intact.</p>
+  <p>This rehearsal exists so that you can tell us what looks wrong <em>before</em> it matters. Nothing about it is final.</p>
+  <div class="callout" style="margin-top:22px;">
+    <span class="tag">Important</span>
+    <h3 style="margin-top:12px;">Please don't start working in Jira yet</h3>
+    <p style="margin:0;">Everything you see in the rehearsal will be <strong>deleted and re-imported from scratch</strong> on cutover weekend. Any comment you add or status you change in it will disappear. Keep working in Asana until we tell you otherwise — we will be very clear about when that changes.</p>
+  </div>
+</section>
+
+<section>
+  <h2>What your work becomes</h2>
+  <p class="lede">Asana had one shape for everything: a task. Jira distinguishes between the kinds of work you actually do, which is most of the point of moving.</p>
+  <div class="pairs">
+    <div class="pair">
+      <div class="was"><span class="label">In Asana</span><span class="term">A task marked “Link”</span></div>
+      <div class="arrow">→</div>
+      <div class="now"><span class="label">In Jira</span><span class="term">Link</span><span class="note">Its own issue type, with the lifecycle you already use: Baking, Ready for UA, Live, On Pause, Stopped</span></div>
+    </div>
+    <div class="pair">
+      <div class="was"><span class="label">In Asana</span><span class="term">A task marked “Test”</span></div>
+      <div class="arrow">→</div>
+      <div class="now"><span class="label">In Jira</span><span class="term">Experiment</span><span class="note">Attached to the link it runs on, so a link now shows all its experiments in one place</span></div>
+    </div>
+    <div class="pair">
+      <div class="was"><span class="label">In Asana</span><span class="term">Everything else</span></div>
+      <div class="arrow">→</div>
+      <div class="now"><span class="label">In Jira</span><span class="term">Task</span><span class="note">Requests, investigations, compliance work, recurring jobs</span></div>
+    </div>
+    <div class="pair">
+      <div class="was"><span class="label">In Asana</span><span class="term">A sub-item</span></div>
+      <div class="arrow">→</div>
+      <div class="now"><span class="label">In Jira</span><span class="term">Sub-task</span><span class="note">Your checklists and cross-checks, still under their parent</span></div>
+    </div>
+    <div class="pair">
+      <div class="was"><span class="label">In Asana</span><span class="term">A board column</span></div>
+      <div class="arrow">→</div>
+      <div class="now"><span class="label">In Jira</span><span class="term">A status, or a Section field</span><span class="note">Columns that described a stage became the status; columns that grouped work by theme became a field you can filter and group by</span></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:34px;">By product</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Your board</th><th>Jira project</th><th class="n">Links</th><th class="n">Experiments</th><th class="n">Tasks</th><th class="n">Sub-tasks</th></tr></thead>
+      <tbody>
+        <tr><td>Yoga-Go</td><td><code>YCF</code></td><td class="n">142</td><td class="n">472</td><td class="n">975</td><td class="n">2,179</td></tr>
+        <tr><td>MuscleBooster</td><td><code>MCF</code></td><td class="n">301</td><td class="n">397</td><td class="n">1,209</td><td class="n">2,277</td></tr>
+        <tr><td>WalkFit</td><td><code>WCF</code></td><td class="n">221</td><td class="n">604</td><td class="n">637</td><td class="n">1,381</td></tr>
+      </tbody>
+      <caption>Each product's Test Calendar, Monetization board and — for MuscleBooster and WalkFit — freelancer board all land in a single project per product.</caption>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>What comes across with it</h2>
+  <p class="lede">This was the part we were most careful about. None of it is retyped or approximated — the records move, so they keep everything.</p>
+  <div class="keeps">
+    <div class="keep"><b>Every comment thread</b><span>With the original author and date, not reposted by a migration account</span></div>
+    <div class="keep"><b>Every attachment</b><span>Screenshots, mockups, exports — all still on the record</span></div>
+    <div class="keep"><b>Descriptions</b><span>Including the ones in Ukrainian and Russian</span></div>
+    <div class="keep"><b>Owners and assignees</b><span>121 of 125 people matched automatically to their Jira account</span></div>
+    <div class="keep"><b>Dates</b><span>Created, due and start dates, exactly as they were</span></div>
+    <div class="keep"><b>Experiment outcomes</b><span>Win, Loss, No diff and the rest now live in a dedicated field you can report on</span></div>
+  </div>
+</section>
+
+<section class="changes">
+  <h2>Three things that genuinely change</h2>
+  <p class="lede">Not everything can move across unchanged, and in a couple of places we deliberately chose not to.</p>
+
+  <div class="callout">
+    <h3>Status lives in one place now</h3>
+    <p style="margin:0;">In Asana, a link's state was recorded twice — once in a status field and once by which column it sat in — and the two often disagreed. We used your own status mapping to settle it, with one rule: a card in an archive or completed column is finished, whatever its field said. So some records will show a tidier status in Jira than they did in Asana. That is deliberate, and from now on there is only one place to set it.</p>
+  </div>
+
+  <div class="callout">
+    <h3>Duplicates are merged</h3>
+    <p style="margin:0;">709 tasks lived on two boards at once and would have arrived twice. They are now single records, filed under the product they belong to.</p>
+  </div>
+
+  <div class="callout">
+    <h3>Recurring work is automatic</h3>
+    <p style="margin:0;">Asana created the next copy of a recurring task for you. Jira has no such thing built in, so we built it. Set a task's <code>Recurrence</code> — weekly, monthly, quarterly — and give it a due date. Complete it on or before that date and the next one appears automatically with the next due date. Miss the date and nothing is generated: the task gets a comment telling you the schedule has paused, and you restart it by setting a new due date. We found <strong>23 recurring routines</strong> in your boards and have carried them over with the cadence they were actually running at.</p>
+  </div>
+</section>
+
+<section class="action">
+  <h2>What we need from you</h2>
+  <p class="lede">One pass through your own product's project by <strong>Friday 21 August</strong>, looking for things only you would notice. Half an hour of your attention this week is worth far more than a month of corrections afterwards — and after the 28th the Asana original is gone, so this is the window.</p>
+  <ul class="checks">
+    <li><span><b>Are your links the right type?</b> Open a handful you know well. A link should be a <code>Link</code>, a test should be an <code>Experiment</code>. If something is filed as a plain Task that shouldn't be, tell us.</span></li>
+    <li><span><b>Do the statuses look right?</b> Especially anything you'd call live, paused or stopped. This is where Asana disagreed with itself most often.</span></li>
+    <li><span><b>Are experiments attached to the correct link?</b> Open a link and check the experiments listed under it are really its own.</span></li>
+    <li><span><b>Are you the owner where you should be?</b> And is anyone assigned work that isn't theirs?</span></li>
+    <li><span><b>Is anything important missing?</b> A link or test you'd expect to find and can't.</span></li>
+  </ul>
+  <p style="margin:24px 0 0;">Send anything you find to <strong>Jacopo</strong> by <strong>Friday 21 August</strong>. That leaves the following week to correct the rules and re-test before cutover. Concrete is better than general — an issue key or a link name we can look up beats “the statuses seem off”.</p>
+</section>
+
+<section>
+  <h2>What happens next</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="when">Mon 17 Aug</div>
+      <div>
+        <h3>Rehearsal completes</h3>
+        <p>The full migration runs against a copy of your data. We check the result against what we expected, record by record.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="when">to Fri 21 Aug</div>
+      <div>
+        <h3>Your review</h3>
+        <p>You look through your product's project and tell us what's wrong. We fix the rules — not the individual records — so the correction applies to everything of that kind.</p>
+      </div>
+    </div>
+    <div class="step future">
+      <div class="when">Mon 24 – Thu 27 Aug</div>
+      <div>
+        <h3>We apply your corrections</h3>
+        <p>Your feedback changes the mapping rules, and we re-run and re-check the rehearsal so the fixes are proven before they matter.</p>
+      </div>
+    </div>
+    <div class="step future">
+      <div class="when">Fri 28 Aug, evening</div>
+      <div>
+        <h3>Asana goes read-only</h3>
+        <p>Finish what you are doing before you log off on Friday. From that moment the boards are frozen, so anything done in Asana afterwards would not carry across.</p>
+      </div>
+    </div>
+    <div class="step future">
+      <div class="when">Sat 29 – Sun 30 Aug</div>
+      <div>
+        <h3>The real migration runs</h3>
+        <p>The rehearsal data is deleted and everything is imported fresh from the frozen Asana boards, using exactly the process we will have just rehearsed. No new steps are invented on the day.</p>
+      </div>
+    </div>
+    <div class="step future">
+      <div class="when">Mon 31 Aug</div>
+      <div>
+        <h3>Jira is where the work lives</h3>
+        <p>You start the week in Jira. Asana access for these boards is switched off, and everything that was in them is in Jira instead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>One thing we can't fully carry</h2>
+  <p>A small number of very old records — under 4% of the total, almost all completed and archived years ago — sat underneath parent tasks that live on boards outside this migration, sometimes on the personal task list of someone who has since left. Where a parent isn't coming, its sub-items can't be placed correctly, so those arrive without their original nesting or don't arrive at all.</p>
+  <p>Everything current is covered. We chased this deliberately rather than discovering it later: it started at around 15% of the data and we recovered most of it by repairing the connections first. What remains is the residue, and it is old.</p>
+</section>
+
+<footer class="end">
+  Questions, or something looks wrong? Talk to <strong>Jacopo Martinuzzi</strong>. The cutover date is fixed: <strong>Friday 28 August</strong>. Everything before it is designed to make that weekend uneventful.
+</footer>
+
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById("theme-toggle");
+  var media = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function current() {
+    return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  }
+
+  function apply(theme, persist) {
+    root.setAttribute("data-theme", theme);
+    root.style.colorScheme = theme;
+    if (btn) {
+      btn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+    }
+    if (persist) {
+      try { localStorage.setItem("cf-theme", theme); } catch (e) {}
+    }
+  }
+
+  apply(current(), false);
+
+  if (btn) {
+    btn.addEventListener("click", function () {
+      apply(current() === "dark" ? "light" : "dark", true);
+    });
+  }
+
+  media.addEventListener("change", function (event) {
+    try {
+      if (localStorage.getItem("cf-theme")) return;
+    } catch (e) {}
+    apply(event.matches ? "dark" : "light", false);
+  });
+})();
+</script>
+</body>
+</html>
